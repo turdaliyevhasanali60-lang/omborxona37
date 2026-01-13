@@ -10,11 +10,11 @@ class Branch(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
-    branch = models.CharField(max_length=255, blank=True, null=True)
+    brand = models.CharField(max_length=255, blank=True, null=True)
     buy_price = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
     sell_price = models.FloatField(blank=True, null=True, validators=[MinValueValidator(0)])
     quantity = models.PositiveIntegerField(default=0)
-    unit_price = models.CharField(max_length=50, blank=True, null=True)
+    unit = models.CharField(max_length=50, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
@@ -22,7 +22,7 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class client(models.Model):
+class Client(models.Model):
     name = models.CharField(max_length=255)
     shop_name = models.CharField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -37,7 +37,7 @@ class client(models.Model):
 
 class Sell(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    client = models.ForeignKey(client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     quantity = models.FloatField(default=1)
 
     details = models.TextField(blank=True, null=True)
@@ -68,9 +68,21 @@ class ImportProduct(models.Model):
     def __str__(self):
         return f'{self.product} -- {self.quantity} {self.product.unit}'
 
+    def total_price(self):
+        try:
+            return self.buy_price * self.quantity
+        except:
+            return None
+    def save(self, *args, **kwargs):
+        self.product.buy_price = self.buy_price
+        self.product.quantity += float(self.quantity)
+        self.product.save()
+        super().save(*args, **kwargs)
+
 class DebtRepayment(models.Model):
     info = models.TextField()
     amount = models.FloatField()
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
@@ -78,6 +90,11 @@ class DebtRepayment(models.Model):
 
     def __str__(self):
         return f'{self.amount}'
+
+    def save(self, *args, **kwargs):
+        self.client.debt -= float(self.amount)
+        self.client.save()
+        super().save(*args, **kwargs)
 
 class Action (models.Model):
     text = models.TextField()

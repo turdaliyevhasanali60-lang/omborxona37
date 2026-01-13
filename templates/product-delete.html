@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Mahsulot | O'chirish {% endblock %}
+{% block page %} {{ product.name }} ma'lumotlarini o'chirmoqchimisiz? {% endblock %}
+{% block product_active %} active {% endblock %}
+
+{% block content %}
+<!-- Modal body -->
+<form action="#" id="edit-product-form" style="padding:  0 20px 40px 20px" method="post">
+    {% csrf_token %}
+
+    <!-- Modal footer -->
+    <a href="{% url 'products' %}">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+    </a>
+        <button type="submit" class="btn btn-danger">O'chirish</button>
+</form>
+
+{% endblock %}

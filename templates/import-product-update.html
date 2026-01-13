@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Kirim ma'lumotlarini o'zgartirish {% endblock %}
+{% block page %} {{ import_product.product.name }} ✏️ {% endblock %}
+{% block import_products_active %} active {% endblock %}
+
+{% block content %}
+<!-- Modal body -->
+<form id="edit-product-form" style="padding:  0 20px 40px 20px" method="post">
+    {% csrf_token %}
+    <label for="product">Mahsulot:</label>
+    <select name="product_id" id="product" class="form-control">
+        {% for product in products %}
+        <option value="{{ product.id }}" {% if product.id == import_product.product.id %}selected{% endif %}>{{ product.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="quantity">Miqdor:</label>
+    <input type="number" name="quantity" value="{{ import_product.quantity }}" id="quantity" class="form-control" required>
+    <br>
+    <label for="buy_price">Sotib olish(so'm):</label>
+    <input type="number" name="buy_price" value="{{ import_product.buy_price }}" id="buy_price" class="form-control" required>
+    <br>
+    <label for="details">Izoh:</label>
+    <input type="text" name="details" value="{{ import_product.details }}" id="details" class="form-control">
+    <br>
+
+    <!-- Modal footer -->
+    <button type="submit" class="btn btn-secondary">Tasdiqlash</button>
+    <a href="{% url 'import-products' %}">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Bekor qilish</button>
+    </a>
+
+</form>
+
+{% endblock %}

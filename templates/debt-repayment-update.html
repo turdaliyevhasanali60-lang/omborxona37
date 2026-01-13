@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} Qaytarilgan qarzlar {% endblock %}
+{% block page %} Qaytarilgan qarzlar {% endblock %}
+{% block debt-active %} active {% endblock %}
+
+{% block content %}
+<!-- Modal body -->
+<form id="edit-product-form" style="padding:  0 20px 40px 20px" method="post">
+    {% csrf_token %}
+    <label>Mijoz:</label>
+    <span>{{ debt_repayment.client }}</span>
+    <br>
+    <label>Qarz miqdori:</label>
+    <span>{{ debt_repayment.client.debt }}</span>
+    <br>
+    <label for="amount">To'langan qarz:</label>
+    <input type="text" name="amount" value="{{ debt_repayment.amount }}"
+           id="amount" class="form-control" required>
+    <br>
+
+    <!-- Modal footer -->
+    <button type="submit" class="btn btn-secondary">Tasdiqlash</button>
+    <a href="{% url 'debt-repayments' %}">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Bekor qilish</button>
+    </a>
+
+</form>
+
+{% endblock %}

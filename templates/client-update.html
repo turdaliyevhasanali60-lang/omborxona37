@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Mijoz ma'lumotlarini o'zgartirish {% endblock %}
+{% block page %} {{ client.name }} ✏️ {% endblock %}
+{% block client_active %} active {% endblock %}
+
+{% block content %}
+<!-- Modal body -->
+<form action="#" id="edit-product-form" style="padding:  0 20px 40px 20px" method="post">
+    {% csrf_token %}
+    <label for="name">Ism:</label>
+    <input type="text" name="name"  placeholder="Ism..." value="{{ client.name }}" id="name"
+           class="form-control" required>
+    <br>
+    <label for="shop_name">Do'kon nomi:</label>
+    <input type="text" name="shop_name" placeholder="Do'kon nomi..." value="{{ client.shop_name }}"
+           id="shop_name" class="form-control" >
+    <br>
+    <label for="phone_number">Telefon raqam:</label>
+    <input type="number" name="phone_number" placeholder="Telefon raqam..." value="{{ client.phone_number }}"
+           id="phone_number" class="form-control" >
+    <br>
+    <label for="address">Adres:</label>
+    <input type="text" name="address" placeholder="Adres..." value="{{ client.address }}"
+           id="address" class="form-control" >
+    <br>
+
+    <!-- Modal footer -->
+    <button type="submit" class="btn btn-secondary">Tasdiqlash</button>
+    <a href="{% url 'clients' %}">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Bekor qilish</button>
+    </a>
+
+</form>
+
+{% endblock %}

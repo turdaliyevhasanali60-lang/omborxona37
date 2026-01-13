@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Mijoz | O'chirish {% endblock %}
+{% block page %} {{ client.name }} ma'lumotlarini o'chirmoqchimisiz? {% endblock %}
+{% block client_active %} active {% endblock %}
+
+{% block content %}
+<!-- Modal body -->
+<form action="#" id="edit-client-form" style="padding:  0 20px 40px 20px" method="post">
+    {% csrf_token %}
+
+    <!-- Modal footer -->
+    <a href="{% url 'clients' %}">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Bekor qilish</button>
+    </a>
+        <button type="submit" class="btn btn-danger">O'chirish</button>
+</form>
+{% endblock %}
