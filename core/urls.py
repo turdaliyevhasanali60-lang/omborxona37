@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from main.views import *
+from users.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,4 +23,9 @@ urlpatterns = [
     path('debt-repayments/', DebtRepaymentView.as_view(), name='debt-repayments'),
     path('debt-repayments/<int:pk>/update/', DebtRepaymentUpdateView.as_view(), name='debt-repayment-update'),
     path('debt-repayments/<int:pk>/delete/', DebtRepaymentDeleteView.as_view(), name='debt-repayment-delete')
+]
+
+urlpatterns += [
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', logout_view, name='logout')
 ]

@@ -15,13 +15,21 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </head>
-<body class="hold-transition sidebar-mini">
+<style>
+  .main-sidebar {
+    min-height: 100vh;
+  }
+  .nav-sidebar .nav-item > .nav-link {
+    display: flex;
+    align-items: center;
+  }
+  .nav-sidebar .nav-item > .nav-link > i.nav-icon {
+    min-width: 1.25rem;
+    text-align: center;
+  }
+</style>
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
 
 <div class="wrapper">
   <!-- Navbar -->
@@ -49,7 +57,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <img src="/static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Online Ombor</span>
+      <span class="brand-text font-weight-light">{{ request.user.branch.name }}</span>
     </a>
 
     <!-- Sidebar -->
@@ -60,13 +68,13 @@
           <img src="/static/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Felix</a>
+          <a href="#" class="d-block">{% if request.user.get_full_name %} {{ request.user.get_full_name }} {% else %} {{ request.user }} {% endif %}</a>
         </div>
       </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-header">Menu</li>
           <li class="nav-item">
             <a href="{% url 'sells'%}" class="nav-link {% block sells_active %}{% endblock %}">
@@ -77,8 +85,8 @@
           <li class="nav-item">
             <a href="{% url 'products' %}" class="nav-link {% block products_active %}{% endblock %}">
               <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Mahsulotlar</p>
-            </a>
+                <p>Mahsulotlar</p>
+          </a>
           </li>
           <li class="nav-item">
             <a href="{% url 'clients' %}" class="nav-link {% block clients_active %}{% endblock %}">
@@ -93,8 +101,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'debt-repayments' %}" class="nav-link {% block debt-active %}{% endblock %}">
-              <i class="nav-icon far fa-circle text-secondary"></i>
+            <a href="{% url 'debt-repayments' %}" class="nav-link {% block debt_active %}{% endblock %}">
+                <i class="nav-icon far fa-circle text-secondary"></i>
               <p>Qarzlar</p>
             </a>
           </li>
@@ -116,7 +124,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="logout">Tizimdan chiqish</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'logout' %}">Tizimdan chiqish</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
